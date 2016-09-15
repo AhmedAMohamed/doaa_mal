@@ -6,3 +6,6 @@
 .DS_Store
 /build
 /captures
+.idea/vcs.xml
+app/libs/
+app/src/main/res/drawable/

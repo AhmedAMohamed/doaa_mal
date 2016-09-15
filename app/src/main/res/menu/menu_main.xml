@@ -18,5 +18,10 @@
         </menu>
     </item>
 
+    <item android:id="@+id/fav_item"
+        android:title="Favourite"
+        app:showAsAction="never">
+    </item>
+
 
 </menu>

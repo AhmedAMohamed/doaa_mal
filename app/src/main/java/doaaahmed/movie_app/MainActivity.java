@@ -14,6 +14,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String DETAILFRAGMENT_TAG = "DETAILEDFRAGMENT";
 
    /* public final String popular_URL= "http://api.themoviedb.org/3/movie/popular?api_key=be0168c8674961cf754ebc2b5850f61c";
     public final String topRated_URL= "http://api.themoviedb.org/3/movie/top_rated?api_key=be0168c8674961cf754ebc2b5850f61c";
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
 
+    boolean mTwoPane;
 
     public FragmentRefreshListener getFragmentRefreshListener() {
         return fragmentRefreshListener;
@@ -41,14 +43,68 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public boolean onMenuItemClick(MenuItem item) {
+
+                int id = item.getItemId();
+                switch (id){
+                    case R.id.popularity:{
+                        editor.putBoolean("popularity", true);
+                        editor.putBoolean("top_rated", false);
+                        editor.putBoolean("favourite", false);
+                        editor.apply();
+                        if(getFragmentRefreshListener()!=null){
+                            getFragmentRefreshListener().onRefresh();
+                        }
+                        break;
+                    }
+                    case R.id.top_rated:{
+                        editor.putBoolean("popularity", false);
+                        editor.putBoolean("top_rated", true);
+                        editor.putBoolean("favourite", false);
+
+                        editor.apply();
+                        if(getFragmentRefreshListener()!=null){
+                            getFragmentRefreshListener().onRefresh();
+                        }
+                        break;
+                    }
+                    case R.id.fav_item:{
+                        editor.putBoolean("favourite", true);
+                        editor.putBoolean("popularity", false);
+                        editor.putBoolean("top_rated", false);
+                        editor.apply();
+
+                        if(getFragmentRefreshListener()!=null){
+                            getFragmentRefreshListener().onRefresh();
+                        }
+                        break;
+                    }
+                }
+                return true;
             }
         });
+        if (findViewById(R.id.details_frame) != null) {
+            // The detail container view will be present only in the large-screen layouts
+            // (res/layout-sw600dp). If this view is present, then the activity should be
+            // in two-pane mode.
+            mTwoPane = true;
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.details_frame, new DetailsActivityFragment(), DETAILFRAGMENT_TAG)
+                        .commit();
+            }
+        } else {
+            mTwoPane = false;
+            getSupportActionBar().setElevation(0f);
+        }
+
+        //DetailsActivityFragment forecastFragment =  ((DetailsActivityFragment)getSupportFragmentManager()
+         //       .findFragmentById(R.id.fragment_details));
 
         prefs = getSharedPreferences("settings", 0);
         editor = prefs.edit();

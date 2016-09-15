@@ -4,26 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 /**
- * Created by hp on 8/13/2016.
+ * Created by ahmedalaa on 9/15/16.
  */
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>{
+
+
+class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>{
 
     private ArrayList<Movie> movies;
     Context context;
@@ -34,6 +31,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         this.context = context;
         this.activity = activity;
     }
+
+    public ArrayList<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(ArrayList<Movie> movies) {
+        this.movies = movies;
+    }
+
     public void add(int position, Movie item) {
         movies.add(position, item);
         notifyItemInserted(position);
@@ -53,7 +59,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     @Override
     public void onBindViewHolder(MovieHolder holder, final int position) {
-       // Picasso.with(context).load(movies.get(position).getPoster()).into(holder.poster);
+        // Picasso.with(context).load(movies.get(position).getPoster()).into(holder.poster);
 
         Picasso.with(context)
                 .load(movies.get(position).getPoster())
@@ -70,6 +76,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
                 Bundle data = new Bundle();
                 data.putParcelable("movie", movies.get(position));
 
+                //FragmentTransaction t = getActivity().getSupportFragmentManager()
+                //        .beginTransaction();
+                //Fragment mFrag = new DetailsActivityFragment();
+                //mFrag.setArguments(data);
+
+                //t.replace(R.id.details_frame,mFrag);
+                //t.commit();
                 Intent intent = new Intent(activity.getApplicationContext(), DetailsActivity.class);
                 intent.putExtra("movie", data);
                 activity.startActivity(intent);
@@ -89,19 +102,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
     public class MovieHolder extends RecyclerView.ViewHolder{
 
         public ImageView poster;
-       /* public TextView plot;
-        public TextView title;
-        public TextView date;
-        public TextView rate;*/
 
         public MovieHolder(View itemView) {
             super(itemView);
             poster = (ImageView) itemView.findViewById(R.id.imageView);
-           /* plot = (TextView) itemView.findViewById(R.id.plot);
-            title = (TextView) itemView.findViewById(R.id.title);
-            date = (TextView) itemView.findViewById(R.id.date);
-            rate = (TextView) itemView.findViewById(R.id.rate);
-*/
         }
     }
 }

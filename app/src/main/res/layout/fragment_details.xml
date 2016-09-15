@@ -67,13 +67,16 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
+        <CheckBox
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Star"
+            android:id="@+id/favourite"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/title"
+            android:layout_alignEnd="@+id/title"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"/>
+
     </RelativeLayout>
 </ScrollView>
-
-<!--
-title
-plot
-posterthumb
-rate
-date
-!-->

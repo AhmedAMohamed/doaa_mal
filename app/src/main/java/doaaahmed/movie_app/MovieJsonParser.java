@@ -26,12 +26,13 @@ public class MovieJsonParser {
         JSONObject jsonObject = null;
         for(int i = 0; i< results.length(); i++){
             jsonObject = results.getJSONObject(i);
-            String title = jsonObject.get("original_title").toString();
-            String poster = jsonObject.get("poster_path").toString();
-            String plot = jsonObject.get("overview").toString();
+            String title = jsonObject.getString("original_title");
+            String poster = jsonObject.getString("poster_path");
+            String plot = jsonObject.getString("overview");
             String rate = jsonObject.get("vote_average").toString();
             String date = jsonObject.get("release_date").toString();
-            data.add(new Movie(rate, title, poster, plot, date));
+            String id = jsonObject.getString("id");
+            data.add(new Movie(id, rate, title, poster, plot, date));
         }
     }
 
