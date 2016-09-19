@@ -51,8 +51,10 @@ public class DetailsActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        //Bundle m = this.getArguments();
-        Bundle m = getActivity().getIntent().getBundleExtra("movie");
+        Bundle m = this.getArguments();
+        if (m == null) {
+            m = getActivity().getIntent().getBundleExtra("movie");
+        }
         if (m != null) {
             final Movie movie = (Movie)m.getParcelable("movie");
 
@@ -142,8 +144,6 @@ public class DetailsActivityFragment extends Fragment {
         else {
             return inflater.inflate(R.layout.empty_fragment, container, false);
         }
-
-
     }
 
     private int findIndx(JSONArray ar, String id) throws JSONException {

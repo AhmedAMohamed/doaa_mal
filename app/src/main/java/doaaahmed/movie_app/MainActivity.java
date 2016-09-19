@@ -86,25 +86,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         if (findViewById(R.id.details_frame) != null) {
-            // The detail container view will be present only in the large-screen layouts
-            // (res/layout-sw600dp). If this view is present, then the activity should be
-            // in two-pane mode.
             mTwoPane = true;
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
             if (savedInstanceState == null) {
+            /*
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.details_frame, new DetailsActivityFragment(), DETAILFRAGMENT_TAG)
                         .commit();
+            */
             }
         } else {
             mTwoPane = false;
             getSupportActionBar().setElevation(0f);
         }
 
-        //DetailsActivityFragment forecastFragment =  ((DetailsActivityFragment)getSupportFragmentManager()
-         //       .findFragmentById(R.id.fragment_details));
 
         prefs = getSharedPreferences("settings", 0);
         editor = prefs.edit();

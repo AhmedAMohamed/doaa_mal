@@ -64,78 +64,48 @@ public class MainActivityFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getContext();
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-        //mRecyclerView.setHasFixedSize(true);
-        // use grid layout
-        mLayoutManager = new GridLayoutManager(getContext(),4);
+
+        mLayoutManager = new GridLayoutManager(getContext(),2);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ((MainActivity)getActivity()).setFragmentRefreshListener(new MainActivity.FragmentRefreshListener() {
             @Override
             public void onRefresh() {
-                movies.clear();
-                prefs = getActivity().getSharedPreferences("settings",0);
-                boolean pop = prefs.getBoolean("popularity", false);
-                boolean top = prefs.getBoolean("top_rated", false);
-                boolean fav = prefs.getBoolean("favourite", false);
-                if (!fav) {
-                    if (pop && ! top) {
-                        MoviesViewerTask task_worker = new MoviesViewerTask(popular_URL, true);
-                        task_worker.execute();
-                    }
-                    else if (!pop && top){
-                        MoviesViewerTask task_worker = new MoviesViewerTask(topRated_URL, true);
-                        task_worker.execute();
+                if (movies != null) {
+                    movies.clear();
+                    prefs = getActivity().getSharedPreferences("settings",0);
+                    boolean pop = prefs.getBoolean("popularity", false);
+                    boolean top = prefs.getBoolean("top_rated", false);
+                    boolean fav = prefs.getBoolean("favourite", false);
+                    if (!fav) {
+                        if (pop && ! top) {
+                            MoviesViewerTask task_worker = new MoviesViewerTask(popular_URL, true);
+                            task_worker.execute();
+                        }
+                        else if (!pop && top){
+                            MoviesViewerTask task_worker = new MoviesViewerTask(topRated_URL, true);
+                            task_worker.execute();
+                        }
+                        else {
+                            MoviesViewerTask task_worker = new MoviesViewerTask(popular_URL, true);
+                            task_worker.execute();
+                        }
+
                     }
                     else {
-                        MoviesViewerTask task_worker = new MoviesViewerTask(popular_URL, true);
+                        MoviesViewerTask task_worker = new MoviesViewerTask(popular_URL, false);
                         task_worker.execute();
                     }
-
-                    if (semaphore) {
-                        semaphore = false;
-                    }
                 }
-                else {
-                    MoviesViewerTask task_worker = new MoviesViewerTask(popular_URL, false);
-                    task_worker.execute();
-                }
-
             }
         });
         ((MainActivity)getActivity()).getFragmentRefreshListener().onRefresh();
         return view;
-    }
-
-    @Override
-    public void onStart() {
-
-        boolean pop = prefs.getBoolean("popularity", false);
-        boolean top = prefs.getBoolean("top_rated", false);
-        boolean fav = prefs.getBoolean("favourite", false);
-        if (!fav) {
-            if (pop && ! top) {
-                MoviesViewerTask task_worker = new MoviesViewerTask(popular_URL, true);
-                task_worker.execute();
-            }
-            else if (!pop && top){
-                MoviesViewerTask task_worker = new MoviesViewerTask(topRated_URL, true);
-                task_worker.execute();
-            }
-            else {
-                MoviesViewerTask task_worker = new MoviesViewerTask(popular_URL, true);
-                task_worker.execute();
-            }
-        }
-        else {
-            MoviesViewerTask task_worker = new MoviesViewerTask(popular_URL, false);
-            task_worker.execute();
-        }
-        super.onStart();
     }
 
     private class MoviesViewerTask extends AsyncTask<String, String, String> {
@@ -177,7 +147,6 @@ public class MainActivityFragment extends Fragment {
                     }
                 }
                 else {
-
                     SharedPreferences pref = getActivity().getSharedPreferences("favourite_data", 0);
                     String fav_json = pref.getString("fav", null);
                     Type t = new TypeToken<List<Movie>>() {}.getType();
@@ -208,6 +177,97 @@ public class MainActivityFragment extends Fragment {
             super.onPostExecute(s);
             mRecyclerView.setAdapter(mAdapter);
 
+        }
+    }
+
+
+    class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>{
+
+        private ArrayList<Movie> movies;
+        Context context;
+        Activity activity;
+
+        public MovieAdapter(Activity activity, Context context, ArrayList<Movie> data){
+            this.movies = data;
+            this.context = context;
+            this.activity = activity;
+        }
+
+        public ArrayList<Movie> getMovies() {
+            return movies;
+        }
+
+        public void setMovies(ArrayList<Movie> movies) {
+            this.movies = movies;
+        }
+
+        public void add(int position, Movie item) {
+            movies.add(position, item);
+            notifyItemInserted(position);
+        }
+
+        public void remove(Movie item) {
+            int position = movies.indexOf(item);
+            movies.remove(position);
+            notifyItemRemoved(position);
+        }
+        @Override
+        public MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_layout, parent, false);
+            MovieHolder mh = new MovieHolder(v);
+            return mh;
+        }
+
+        @Override
+        public void onBindViewHolder(MovieHolder holder, final int position) {
+            Picasso.with(context)
+                    .load(movies.get(position).getPoster())
+                    .into(holder.poster);
+
+            holder.poster.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Bundle data = new Bundle();
+                    data.putParcelable("movie", movies.get(position));
+
+                    if (getActivity().findViewById(R.id.details_frame) != null) {
+                        FragmentTransaction t = getActivity().getSupportFragmentManager()
+                                .beginTransaction();
+                        Fragment mFrag = new DetailsActivityFragment();
+                        mFrag.setArguments(data);
+
+                        t.replace(R.id.details_frame,mFrag, "TAG");
+                        t.commit();
+
+                    } else {
+                        Intent intent = new Intent(activity.getApplicationContext(), DetailsActivity.class);
+                        intent.putExtra("movie", data);
+                        activity.startActivity(intent);
+
+                    }
+
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount() {
+            if (movies == null) {
+                return 0;
+            }
+            return movies.size();
+        }
+
+        public class MovieHolder extends RecyclerView.ViewHolder{
+
+            public ImageView poster;
+
+            public MovieHolder(View itemView) {
+                super(itemView);
+                poster = (ImageView) itemView.findViewById(R.id.imageView);
+            }
         }
     }
 
