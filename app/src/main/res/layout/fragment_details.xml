@@ -70,13 +70,25 @@
         <CheckBox
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Star"
+            android:text="Favourite"
             android:id="@+id/favourite"
-            android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/title"
-            android:layout_alignEnd="@+id/title"
             android:paddingTop="15dp"
-            android:paddingBottom="15dp"/>
+            android:paddingBottom="15dp"
+
+            android:layout_below="@+id/title"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/Gold"
+            android:id="@+id/info_list"
+            android:layout_below="@+id/date"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+        </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
 </ScrollView>

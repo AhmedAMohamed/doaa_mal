@@ -87,13 +87,6 @@ public class MainActivity extends AppCompatActivity {
         });
         if (findViewById(R.id.details_frame) != null) {
             mTwoPane = true;
-            if (savedInstanceState == null) {
-            /*
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.details_frame, new DetailsActivityFragment(), DETAILFRAGMENT_TAG)
-                        .commit();
-            */
-            }
         } else {
             mTwoPane = false;
             getSupportActionBar().setElevation(0f);

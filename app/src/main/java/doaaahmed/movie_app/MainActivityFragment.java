@@ -108,6 +108,12 @@ public class MainActivityFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        ((MainActivity)getActivity()).getFragmentRefreshListener().onRefresh();
+        super.onStart();
+    }
+
     private class MoviesViewerTask extends AsyncTask<String, String, String> {
         String path;
         private StringBuilder stringBuilder;
@@ -179,7 +185,6 @@ public class MainActivityFragment extends Fragment {
 
         }
     }
-
 
     class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>{
 

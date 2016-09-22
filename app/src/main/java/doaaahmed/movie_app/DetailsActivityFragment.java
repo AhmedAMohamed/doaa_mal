@@ -1,21 +1,18 @@
 package doaaahmed.movie_app;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -24,9 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -41,7 +35,11 @@ public class DetailsActivityFragment extends Fragment {
     TextView rate;
     CheckBox favourite;
 
+    ArrayList<RT> reviews_trailers;
+    RTAdapter adapter;
+
     private ArrayList<Movie> fav_ids;
+    private RecyclerView recycler;
 
     public DetailsActivityFragment() {
         super();
@@ -51,6 +49,7 @@ public class DetailsActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        adapter = new RTAdapter(getActivity(), new ArrayList<RT>());
         Bundle m = this.getArguments();
         if (m == null) {
             m = getActivity().getIntent().getBundleExtra("movie");
@@ -65,6 +64,15 @@ public class DetailsActivityFragment extends Fragment {
             date = (TextView) v.findViewById(R.id.date);
             rate = (TextView) v.findViewById(R.id.rate);
             favourite = (CheckBox) v.findViewById(R.id.favourite);
+
+            recycler = (RecyclerView)v.findViewById(R.id.info_list);
+            RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
+
+            recycler.setLayoutManager(manager);
+
+            recycler.setAdapter(adapter);
+
+
 
             final SharedPreferences prefs = getActivity().getSharedPreferences("favourite_data", 0);
             final SharedPreferences.Editor editor = prefs.edit();
