@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -13,27 +12,18 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
-import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +38,6 @@ public class MainActivityFragment extends Fragment {
 
     public static ArrayList<Movie> movies = new ArrayList<>();
 
-
-    Bundle detailsDataBundle;
-    boolean semaphore;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -73,7 +60,8 @@ public class MainActivityFragment extends Fragment {
         mLayoutManager = new GridLayoutManager(getContext(),2);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ((MainActivity)getActivity()).setFragmentRefreshListener(new MainActivity.FragmentRefreshListener() {
+        MainActivity main = (MainActivity) getActivity();
+        FragmentRefreshListener frag = new FragmentRefreshListener() {
             @Override
             public void onRefresh() {
                 if (movies != null) {
@@ -95,7 +83,6 @@ public class MainActivityFragment extends Fragment {
                             MoviesViewerTask task_worker = new MoviesViewerTask(popular_URL, true);
                             task_worker.execute();
                         }
-
                     }
                     else {
                         MoviesViewerTask task_worker = new MoviesViewerTask(popular_URL, false);
@@ -103,14 +90,17 @@ public class MainActivityFragment extends Fragment {
                     }
                 }
             }
-        });
-        ((MainActivity)getActivity()).getFragmentRefreshListener().onRefresh();
+        };
+        main.setFragRefreshListener(frag);
+
+        // to force the app to choose a default if no options were selected
+        ((MainActivity)getActivity()).getFragRefreshListener().onRefresh();
         return view;
     }
 
     @Override
     public void onStart() {
-        ((MainActivity)getActivity()).getFragmentRefreshListener().onRefresh();
+        ((MainActivity)getActivity()).getFragRefreshListener().onRefresh();
         super.onStart();
     }
 
@@ -236,13 +226,14 @@ public class MainActivityFragment extends Fragment {
                     Bundle data = new Bundle();
                     data.putParcelable("movie", movies.get(position));
 
+                    // for tablet
                     if (getActivity().findViewById(R.id.details_frame) != null) {
                         FragmentTransaction t = getActivity().getSupportFragmentManager()
                                 .beginTransaction();
                         Fragment mFrag = new DetailsActivityFragment();
                         mFrag.setArguments(data);
 
-                        t.replace(R.id.details_frame,mFrag, "TAG");
+                        t.replace(R.id.details_frame,mFrag);
                         t.commit();
 
                     } else {

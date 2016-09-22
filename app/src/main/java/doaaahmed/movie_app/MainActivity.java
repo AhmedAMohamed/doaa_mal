@@ -2,19 +2,12 @@ package doaaahmed.movie_app;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.GridView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String DETAILFRAGMENT_TAG = "DETAILEDFRAGMENT";
 
    /* public final String popular_URL= "http://api.themoviedb.org/3/movie/popular?api_key=be0168c8674961cf754ebc2b5850f61c";
     public final String topRated_URL= "http://api.themoviedb.org/3/movie/top_rated?api_key=be0168c8674961cf754ebc2b5850f61c";
@@ -23,18 +16,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
-
-    boolean mTwoPane;
-
-    public FragmentRefreshListener getFragmentRefreshListener() {
-        return fragmentRefreshListener;
-    }
-
-    public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener) {
-        this.fragmentRefreshListener = fragmentRefreshListener;
-    }
-
-    private FragmentRefreshListener fragmentRefreshListener;
+    private FragmentRefreshListener fragRefreshListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        prefs = getSharedPreferences("settings", 0);
+        editor = prefs.edit();
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -53,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
                         editor.putBoolean("popularity", true);
                         editor.putBoolean("top_rated", false);
                         editor.putBoolean("favourite", false);
-                        editor.apply();
-                        if(getFragmentRefreshListener()!=null){
-                            getFragmentRefreshListener().onRefresh();
+                        editor.commit();
+                        if(getFragRefreshListener()!=null){
+                            getFragRefreshListener().onRefresh();
                         }
                         break;
                     }
@@ -64,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
                         editor.putBoolean("top_rated", true);
                         editor.putBoolean("favourite", false);
 
-                        editor.apply();
-                        if(getFragmentRefreshListener()!=null){
-                            getFragmentRefreshListener().onRefresh();
+                        editor.commit();
+                        if(getFragRefreshListener()!=null){
+                            getFragRefreshListener().onRefresh();
                         }
                         break;
                     }
@@ -74,10 +59,10 @@ public class MainActivity extends AppCompatActivity {
                         editor.putBoolean("favourite", true);
                         editor.putBoolean("popularity", false);
                         editor.putBoolean("top_rated", false);
-                        editor.apply();
+                        editor.commit();
 
-                        if(getFragmentRefreshListener()!=null){
-                            getFragmentRefreshListener().onRefresh();
+                        if(getFragRefreshListener()!=null){
+                            getFragRefreshListener().onRefresh();
                         }
                         break;
                     }
@@ -85,16 +70,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        if (findViewById(R.id.details_frame) != null) {
-            mTwoPane = true;
-        } else {
-            mTwoPane = false;
-            getSupportActionBar().setElevation(0f);
-        }
 
 
-        prefs = getSharedPreferences("settings", 0);
-        editor = prefs.edit();
     }
 
     @Override
@@ -106,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    @Override
+  /*  @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
@@ -115,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
                 editor.putBoolean("popularity", true);
                 editor.putBoolean("top_rated", false);
                 editor.apply();
-                if(getFragmentRefreshListener()!=null){
-                    getFragmentRefreshListener().onRefresh();
+                if(getFragRefreshListener()!=null){
+                    getFragRefreshListener().onRefresh();
                 }
                 break;
             }
@@ -124,16 +101,20 @@ public class MainActivity extends AppCompatActivity {
                 editor.putBoolean("popularity", false);
                 editor.putBoolean("top_rated", true);
                 editor.apply();
-                if(getFragmentRefreshListener()!=null){
-                    getFragmentRefreshListener().onRefresh();
+                if(getFragRefreshListener()!=null){
+                    getFragRefreshListener().onRefresh();
                 }
                 break;
             }
         }
         return true;
+    }*/
+
+    public FragmentRefreshListener getFragRefreshListener() {
+        return fragRefreshListener;
     }
 
-    public interface FragmentRefreshListener{
-        void onRefresh();
+    public void setFragRefreshListener(FragmentRefreshListener fragRefreshListener) {
+        this.fragRefreshListener = fragRefreshListener;
     }
 }
