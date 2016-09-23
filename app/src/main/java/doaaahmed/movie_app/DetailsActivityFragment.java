@@ -1,11 +1,13 @@
 package doaaahmed.movie_app;
 
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -72,7 +80,8 @@ public class DetailsActivityFragment extends Fragment {
 
             recycler.setAdapter(adapter);
 
-
+            RTTaster taster = new RTTaster(movie.getId());
+            taster.execute();
 
             final SharedPreferences prefs = getActivity().getSharedPreferences("favourite_data", 0);
             final SharedPreferences.Editor editor = prefs.edit();
@@ -176,5 +185,66 @@ public class DetailsActivityFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    class RTTaster extends AsyncTask<String,String,String> {
+
+        String id;
+        StringBuilder stringBuilder;
+
+
+        RTTaster(String id) {
+            this.id = id;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            //http://api.themoviedb.org/3/movie/271110/reviews?api_key=3bd2b46edbf8a79a9b433f1f9c892323
+            URL url = null;
+            try {
+                url = new URL("");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            HttpURLConnection urlConnection = null;
+            try {
+                urlConnection = (HttpURLConnection) url.openConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+                urlConnection.connect();
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                stringBuilder = new StringBuilder();
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line).append("\n");
+                }
+                bufferedReader.close();
+
+                RTJsonParser parser = new RTJsonParser(stringBuilder.toString());
+                parser.parse();
+                ArrayList<RT> reviews = parser.getData();
+                adapter = new RTAdapter(getActivity(), reviews);
+            }
+            catch (Exception e) {
+                Log.e("error_in", e.toString());
+            }
+            finally{
+                urlConnection.disconnect();
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 }
