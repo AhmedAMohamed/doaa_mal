@@ -29,7 +29,7 @@ public class RTAdapter extends RecyclerView.Adapter<RTAdapter.RTHolder>{
     public void onBindViewHolder(final RTHolder holder, int position) {
         final RT m = mData.get(position);
         if (m.isTrailer()) {
-            holder.title.setText(m.title);
+            holder.title.setText(m.RTtitle);
             if (holder.title.getText().toString().equalsIgnoreCase("trailers")) {
                 holder.content.setScaleY((float) 0.00001);
             }

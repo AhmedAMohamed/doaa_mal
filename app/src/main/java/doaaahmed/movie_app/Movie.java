@@ -25,8 +25,6 @@ release date*/
     private String rate;
     private String date;
     private String id;
-    private ArrayList<Review> reviews;
-    private ArrayList<Video> trailers;
 
     public Movie(String id, String rate, String title, String poster, String plot, String date) {
         this.rate = rate.substring(0, rate.length());
@@ -45,9 +43,6 @@ release date*/
         rate = in.readString();
         date = in.readString();
         id = in.readString();
-        reviews = in.readArrayList(null);
-        trailers = in.readArrayList(null);
-
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -78,22 +73,6 @@ release date*/
 
     public String getDate() {
         return date;
-    }
-
-    public ArrayList<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(ArrayList<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public ArrayList<Video> getTrailers() {
-        return trailers;
-    }
-
-    public void setTrailers(ArrayList<Video> trailers) {
-        this.trailers = trailers;
     }
 
     public String getId() {
@@ -129,13 +108,6 @@ release date*/
         this.id = id;
     }
 
-    public void addTrailer(Video v) {
-        trailers.add(v);
-    }
-
-    public void addReview(Review r) {
-        reviews.add(r);
-    }
 
     @Override
     public int describeContents() {
@@ -150,8 +122,6 @@ release date*/
         parcel.writeString(rate);
         parcel.writeString(date);
         parcel.writeString(id);
-        parcel.writeList(reviews);
-        parcel.writeList(trailers);
     }
 
     @Override
@@ -163,20 +133,7 @@ release date*/
                 ", rate='" + rate + '\'' +
                 ", date='" + date + '\'' +
                 ", id='" + id + '\'' +
-                ", reviews=" + reviews +
-                ", trailers=" + trailers +
                 '}';
     }
 
-    public Map toJson() {
-        Map<String, String> map = new HashMap();
-        map.put("title", title);
-        map.put("poster", poster);
-        map.put("plot", plot);
-        map.put("rate", rate);
-        map.put("date", date);
-        map.put("id", id);
-
-        return null;
-    }
 }

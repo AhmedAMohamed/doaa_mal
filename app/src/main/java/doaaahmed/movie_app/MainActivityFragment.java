@@ -94,7 +94,7 @@ public class MainActivityFragment extends Fragment {
         main.setFragRefreshListener(frag);
 
         // to force the app to choose a default if no options were selected
-        ((MainActivity)getActivity()).getFragRefreshListener().onRefresh();
+       // ((MainActivity)getActivity()).getFragRefreshListener().onRefresh();
         return view;
     }
 

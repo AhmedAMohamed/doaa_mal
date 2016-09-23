@@ -8,9 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * Created by ahmedalaa on 9/11/16.
- */
+
 public class MovieJsonParser {
     String j_data;
     ArrayList<Movie> data;

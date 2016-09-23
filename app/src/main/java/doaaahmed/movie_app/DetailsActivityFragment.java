@@ -80,8 +80,8 @@ public class DetailsActivityFragment extends Fragment {
 
             recycler.setAdapter(adapter);
 
-            RTTaster taster = new RTTaster(movie.getId());
-            taster.execute();
+            RTTasker tasker = new RTTasker(movie.getId());
+            tasker.execute();
 
             final SharedPreferences prefs = getActivity().getSharedPreferences("favourite_data", 0);
             final SharedPreferences.Editor editor = prefs.edit();
@@ -187,13 +187,13 @@ public class DetailsActivityFragment extends Fragment {
         super.onStart();
     }
 
-    class RTTaster extends AsyncTask<String,String,String> {
+    class RTTasker extends AsyncTask<String,String,String> {
 
         String id;
         StringBuilder stringBuilder;
 
 
-        RTTaster(String id) {
+        RTTasker(String id) {
             this.id = id;
         }
 

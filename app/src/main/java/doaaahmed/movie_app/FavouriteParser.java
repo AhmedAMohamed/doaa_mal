@@ -11,9 +11,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Map;
 
-/**
- * Created by ahmedalaa on 9/15/16.
- */
+
 public class FavouriteParser {
 
     private String favourite_json;
