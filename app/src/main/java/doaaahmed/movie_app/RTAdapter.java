@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -22,7 +23,9 @@ public class RTAdapter extends RecyclerView.Adapter<RTAdapter.RTHolder>{
 
     @Override
     public RTHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
+        RTHolder mHolder = new RTHolder(view);
+        return mHolder;
     }
 
     @Override
@@ -47,17 +50,17 @@ public class RTAdapter extends RecyclerView.Adapter<RTAdapter.RTHolder>{
                 @Override
                 public void onClick(View view) {
                     if (holder.content.getEllipsize() == TextUtils.TruncateAt.END) {
-                        holder.content.setEllipsize(null);
-                        holder.content.setMaxLines(100);
+                  //      holder.content.setEllipsize(null);
+                  //      holder.content.setMaxLines(100);
                     }
                     else {
-                        holder.content.setEllipsize(TextUtils.TruncateAt.END);
-                        holder.content.setMaxLines(3);
+                  //      holder.content.setEllipsize(TextUtils.TruncateAt.END);
+                  //      holder.content.setMaxLines(3);
                     }
 
                 }
             });
-            holder.title.setText(m.getTitle());
+            holder.title.setText(m.getRTtitle());
         }
     }
 
@@ -97,6 +100,8 @@ public class RTAdapter extends RecyclerView.Adapter<RTAdapter.RTHolder>{
 
         public RTHolder(View itemView) {
             super(itemView);
+            title = (TextView) itemView.findViewById(R.id.RT_title_Item);
+            content = (TextView) itemView.findViewById(R.id.RT_content_Item);
         }
     }
 }

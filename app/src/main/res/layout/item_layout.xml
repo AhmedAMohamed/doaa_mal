@@ -8,11 +8,11 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/textView" />
+        android:id="@+id/RT_title_Item" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/textView2" />
+        android:id="@+id/RT_content_Item" />
 </LinearLayout>

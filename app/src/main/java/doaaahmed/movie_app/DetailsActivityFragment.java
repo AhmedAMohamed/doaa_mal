@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -57,7 +58,6 @@ public class DetailsActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        adapter = new RTAdapter(getActivity(), new ArrayList<RT>());
         Bundle m = this.getArguments();
         if (m == null) {
             m = getActivity().getIntent().getBundleExtra("movie");
@@ -78,9 +78,10 @@ public class DetailsActivityFragment extends Fragment {
 
             recycler.setLayoutManager(manager);
 
+            adapter = new RTAdapter(getActivity(), new ArrayList<RT>());
             recycler.setAdapter(adapter);
 
-            RTTasker tasker = new RTTasker(movie.getId());
+            ReviewTasker tasker = new ReviewTasker(movie.getId());
             tasker.execute();
 
             final SharedPreferences prefs = getActivity().getSharedPreferences("favourite_data", 0);
@@ -187,23 +188,24 @@ public class DetailsActivityFragment extends Fragment {
         super.onStart();
     }
 
-    class RTTasker extends AsyncTask<String,String,String> {
+    class ReviewTasker extends AsyncTask<String,String,String> {
 
         String id;
         StringBuilder stringBuilder;
+        private ArrayList<RT> reviews;
 
 
-        RTTasker(String id) {
+        ReviewTasker(String id) {
             this.id = id;
         }
 
         @Override
         protected String doInBackground(String... strings) {
 
-            //http://api.themoviedb.org/3/movie/271110/reviews?api_key=3bd2b46edbf8a79a9b433f1f9c892323
+            String uri = "http://api.themoviedb.org/3/movie/" + id + "/reviews?api_key=be0168c8674961cf754ebc2b5850f61c";
             URL url = null;
             try {
-                url = new URL("");
+                url = new URL(uri);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -215,8 +217,6 @@ public class DetailsActivityFragment extends Fragment {
             }
             try {
                 urlConnection.setRequestMethod("GET");
-                urlConnection.setDoInput(true);
-                urlConnection.setDoOutput(true);
                 urlConnection.connect();
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -226,25 +226,23 @@ public class DetailsActivityFragment extends Fragment {
                     stringBuilder.append(line).append("\n");
                 }
                 bufferedReader.close();
+                reviews = new RsonParser(stringBuilder.toString()).getData();
 
-                RTJsonParser parser = new RTJsonParser(stringBuilder.toString());
-                parser.parse();
-                ArrayList<RT> reviews = parser.getData();
-                adapter = new RTAdapter(getActivity(), reviews);
             }
             catch (Exception e) {
                 Log.e("error_in", e.toString());
             }
             finally{
                 urlConnection.disconnect();
-            }
-            return null;
+
+            }return null;
         }
 
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            adapter.updateList(reviews);
         }
     }
 }

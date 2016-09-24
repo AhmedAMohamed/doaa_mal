@@ -100,7 +100,7 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public void onStart() {
-        ((MainActivity)getActivity()).getFragRefreshListener().onRefresh();
+    //    ((MainActivity)getActivity()).getFragRefreshListener().onRefresh();
         super.onStart();
     }
 

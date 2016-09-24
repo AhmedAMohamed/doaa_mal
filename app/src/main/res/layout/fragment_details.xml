@@ -1,4 +1,4 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,85 +10,90 @@
     tools:showIn="@layout/activity_details">
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent" android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/posterthumb"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/title"
-            android:layout_below="@+id/posterthumb"
-            android:layout_centerHorizontal="true"
-            android:textStyle="bold"
-            android:textSize="40dp"
-            android:layout_marginTop="101dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/plot"
-            android:layout_marginTop="58dp"
-            android:layout_below="@+id/title"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:textStyle="bold"
-            android:textColor="@color/Gold"
-            android:textSize="60dp"
-            android:textAllCaps="true"
-            android:id="@+id/rate"
-            android:layout_below="@+id/plot"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/date"
-            android:layout_below="@+id/rate"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <CheckBox
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Favourite"
-            android:id="@+id/favourite"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-
-            android:layout_below="@+id/title"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-        <android.support.v7.widget.RecyclerView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@color/Gold"
-            android:id="@+id/info_list"
-            android:layout_below="@+id/date"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_height="match_parent"
+            android:id="@+id/container">
 
-        </android.support.v7.widget.RecyclerView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/posterthumb"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
-    </RelativeLayout>
-</ScrollView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/title"
+                android:layout_below="@+id/posterthumb"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:textSize="40dp"
+                android:layout_marginTop="101dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/plot"
+                android:layout_marginTop="58dp"
+                android:layout_below="@+id/title"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:textStyle="bold"
+                android:textColor="@color/Gold"
+                android:textSize="60dp"
+                android:textAllCaps="true"
+                android:id="@+id/rate"
+                android:layout_below="@+id/plot"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/date"
+                android:layout_below="@+id/rate"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <CheckBox
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Favourite"
+                android:id="@+id/favourite"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+
+                android:layout_below="@+id/title"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/Gold"
+                android:id="@+id/info_list"
+                android:layout_below="@+id/date"
+                android:layout_marginTop="43dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
