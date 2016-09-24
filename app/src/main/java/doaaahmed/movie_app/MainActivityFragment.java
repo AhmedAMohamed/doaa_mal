@@ -45,7 +45,6 @@ public class MainActivityFragment extends Fragment {
     static Context context ;
 
     SharedPreferences prefs;
-    SharedPreferences.Editor editor;
 
     public MainActivityFragment() {
     }
@@ -93,14 +92,13 @@ public class MainActivityFragment extends Fragment {
         };
         main.setFragRefreshListener(frag);
 
-        // to force the app to choose a default if no options were selected
-       // ((MainActivity)getActivity()).getFragRefreshListener().onRefresh();
         return view;
     }
 
     @Override
     public void onStart() {
-    //    ((MainActivity)getActivity()).getFragRefreshListener().onRefresh();
+        // to force the app to choose a default if no options were selected
+        ((MainActivity)getActivity()).getFragRefreshListener().onRefresh();
         super.onStart();
     }
 

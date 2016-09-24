@@ -50,12 +50,12 @@ public class RTAdapter extends RecyclerView.Adapter<RTAdapter.RTHolder>{
                 @Override
                 public void onClick(View view) {
                     if (holder.content.getEllipsize() == TextUtils.TruncateAt.END) {
-                  //      holder.content.setEllipsize(null);
-                  //      holder.content.setMaxLines(100);
+                        holder.content.setEllipsize(null);
+                        holder.content.setMaxLines(100);
                     }
                     else {
-                  //      holder.content.setEllipsize(TextUtils.TruncateAt.END);
-                  //      holder.content.setMaxLines(3);
+                        holder.content.setEllipsize(TextUtils.TruncateAt.END);
+                        holder.content.setMaxLines(3);
                     }
 
                 }

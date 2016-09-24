@@ -49,6 +49,7 @@ public class DetailsActivityFragment extends Fragment {
 
     private ArrayList<Movie> fav_ids;
     private RecyclerView recycler;
+    Movie movie;
 
     public DetailsActivityFragment() {
         super();
@@ -63,7 +64,7 @@ public class DetailsActivityFragment extends Fragment {
             m = getActivity().getIntent().getBundleExtra("movie");
         }
         if (m != null) {
-            final Movie movie = (Movie)m.getParcelable("movie");
+            movie = (Movie)m.getParcelable("movie");
 
             View v = inflater.inflate(R.layout.fragment_details, container, false);
             image = (ImageView) v.findViewById(R.id.posterthumb);
@@ -151,6 +152,8 @@ public class DetailsActivityFragment extends Fragment {
             });
             Picasso.with(getContext())
                     .load(movie.getPoster())
+                    .resize(400,500)
+                    .centerCrop()
                     .into(image);
             plot.setText(movie.getPlot());
             title.setText(movie.getTitle());
@@ -192,7 +195,6 @@ public class DetailsActivityFragment extends Fragment {
 
         String id;
         StringBuilder stringBuilder;
-        private ArrayList<RT> reviews;
 
 
         ReviewTasker(String id) {
@@ -226,7 +228,7 @@ public class DetailsActivityFragment extends Fragment {
                     stringBuilder.append(line).append("\n");
                 }
                 bufferedReader.close();
-                reviews = new RsonParser(stringBuilder.toString()).getData();
+                reviews_trailers = new RsonParser(stringBuilder.toString()).getData();
 
             }
             catch (Exception e) {
@@ -235,14 +237,70 @@ public class DetailsActivityFragment extends Fragment {
             finally{
                 urlConnection.disconnect();
 
-            }return null;
+            }
+            return null;
         }
 
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            adapter.updateList(reviews);
+            TrailerTasker tasker = new TrailerTasker(movie.getId());
+            tasker.execute();
+        }
+    }
+
+    private class TrailerTasker extends AsyncTask<String,String,String> {
+
+        String id;
+        private StringBuilder stringBuilder;
+
+        public TrailerTasker(String id) {
+            this.id = id;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String uri = "http://api.themoviedb.org/3/movie/" + id + "/videos?api_key=be0168c8674961cf754ebc2b5850f61c";
+            URL url = null;
+            try {
+                url = new URL(uri);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            HttpURLConnection urlConnection = null;
+            try {
+                urlConnection = (HttpURLConnection) url.openConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                stringBuilder = new StringBuilder();
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line).append("\n");
+                }
+                bufferedReader.close();
+                reviews_trailers.addAll(new TJsonParser(stringBuilder.toString()).getResults());
+
+            }
+            catch (Exception e) {
+                Log.e("error_in", e.toString());
+            }
+            finally{
+                urlConnection.disconnect();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            adapter.updateList(reviews_trailers);
         }
     }
 }

@@ -20,16 +20,16 @@
         android:id="@+id/fragment"
         android:name="doaaahmed.movie_app.MainActivityFragment"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="629dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:layout="@layout/fragment_main"
         android:layout_gravity="left|bottom" />
 
     <FrameLayout
         android:layout_width="471dp"
-        android:layout_height="465dp"
+        android:layout_height="665dp"
         android:id="@+id/details_frame"
-        android:layout_gravity="right|center_vertical">
+        android:layout_gravity="right|bottom">
     </FrameLayout>
 
 </FrameLayout>

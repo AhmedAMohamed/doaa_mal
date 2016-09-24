@@ -85,8 +85,8 @@
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/Gold"
+                android:layout_height="400dp"
+                android:background="@color/white"
                 android:id="@+id/info_list"
                 android:layout_below="@+id/date"
                 android:layout_marginTop="43dp">
