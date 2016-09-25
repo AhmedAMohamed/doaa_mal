@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -228,7 +227,7 @@ public class DetailsActivityFragment extends Fragment {
                     stringBuilder.append(line).append("\n");
                 }
                 bufferedReader.close();
-                reviews_trailers = new RsonParser(stringBuilder.toString()).getData();
+                reviews_trailers = new RJsonParser(stringBuilder.toString()).getData();
 
             }
             catch (Exception e) {

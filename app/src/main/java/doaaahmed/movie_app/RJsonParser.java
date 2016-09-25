@@ -7,12 +7,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class RsonParser {
+public class RJsonParser {
 
     private ArrayList<RT> data;
     String json;
 
-    public RsonParser(String s) {
+    public RJsonParser(String s) {
         json = s;
     }
 
