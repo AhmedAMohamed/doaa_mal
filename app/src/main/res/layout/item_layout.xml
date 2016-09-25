@@ -18,7 +18,7 @@
         android:text="New Text"
         android:paddingTop="10dp"
         android:background="@color/lite_purple_2"
-        android:textColor="@color/word_color"
+        android:textColor="@color/black"
         android:ellipsize="end"
         android:maxLines="3"
         android:paddingBottom="10dp"

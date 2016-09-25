@@ -217,7 +217,6 @@ public class MainActivityFragment extends Fragment {
                     .load(movies.get(position).getPoster())
                     .into(holder.poster);
 
-            holder.poster.setScaleY((float) 2);
             holder.poster.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -241,10 +240,8 @@ public class MainActivityFragment extends Fragment {
                         activity.startActivity(intent);
 
                     }
-
                 }
             });
-
         }
 
         @Override

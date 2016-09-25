@@ -44,7 +44,7 @@ public class RTAdapter extends RecyclerView.Adapter<RTAdapter.RTHolder>{
                 }
             });
         }
-        else {
+        else { // review
             holder.content.setText(m.getContent());
             holder.content.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -57,7 +57,6 @@ public class RTAdapter extends RecyclerView.Adapter<RTAdapter.RTHolder>{
                         holder.content.setEllipsize(TextUtils.TruncateAt.END);
                         holder.content.setMaxLines(3);
                     }
-
                 }
             });
             holder.title.setText(m.getRTtitle());
