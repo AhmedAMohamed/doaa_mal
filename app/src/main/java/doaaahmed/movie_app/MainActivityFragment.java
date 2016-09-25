@@ -143,6 +143,8 @@ public class MainActivityFragment extends Fragment {
                 else {
                     SharedPreferences pref = getActivity().getSharedPreferences("favourite_data", 0);
                     String fav_json = pref.getString("fav", null);
+                    // The type we need the JSON Array to be converted to
+                    // we need to convert our JSON Array "favorite" to list of Movies "class"
                     Type t = new TypeToken<List<Movie>>() {}.getType();
                     movies = new Gson().fromJson(fav_json, t);
                     mAdapter = new MovieAdapter(getActivity(),getContext(), movies);
