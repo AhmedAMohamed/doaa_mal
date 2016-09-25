@@ -152,7 +152,7 @@ public class DetailsActivityFragment extends Fragment {
             });
             Picasso.with(getContext())
                     .load(movie.getPoster())
-                    .resize(400,500)
+                    .resize(500,800)
                     .centerCrop()
                     .into(image);
             plot.setText(movie.getPlot());

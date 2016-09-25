@@ -56,7 +56,7 @@ public class MainActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
 
-        mLayoutManager = new GridLayoutManager(getContext(),2);
+        mLayoutManager = new GridLayoutManager(getContext(),4);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         MainActivity main = (MainActivity) getActivity();
@@ -217,6 +217,7 @@ public class MainActivityFragment extends Fragment {
                     .load(movies.get(position).getPoster())
                     .into(holder.poster);
 
+            holder.poster.setScaleY((float) 2);
             holder.poster.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/lite_purple">
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/Deep_Purple"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             android:elevation="4dp"/>
 
@@ -26,21 +27,12 @@
         android:layout_gravity="left|bottom" />
 
     <FrameLayout
-        android:layout_width="500dp"
+        android:layout_width="543dp"
         android:layout_height="650dp"
         android:paddingBottom="30dp"
         android:paddingTop="30dp"
         android:id="@+id/details_frame"
         android:layout_gravity="right|bottom">
     </FrameLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:paddingBottom="30dp"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal|top" />
 
 </FrameLayout>

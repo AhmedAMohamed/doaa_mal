@@ -10,9 +10,6 @@ public class RT implements Parcelable{
     String RTtitle;
     String content;
 
-    public RT() {
-    }
-
     public boolean isTrailer() {
         return trailer;
     }

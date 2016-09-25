@@ -13,12 +13,7 @@ import java.util.Map;
  * Created by hp on 9/3/2016.
  */
 public class Movie implements Serializable, Parcelable{
-    /*
-    * original title
-movie poster image thumbnail
-A plot synopsis (called overview in the api)
-user rating (called vote_average in the api)
-release date*/
+
     private String title;
     private String poster;
     private String plot;
